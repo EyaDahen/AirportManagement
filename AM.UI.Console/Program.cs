@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Reflection;
 using AM.Core.Domain;
 using Plane = AM.Core.Domain.Plane;
+using AM.Data;
 
 Console.WriteLine("Hello, World!");
 
@@ -78,4 +79,25 @@ Console.WriteLine("Hello, World!");
         //Methode 2 
         passenger1.GetAge(passenger1);
         Console.WriteLine(passenger1.Age);
-        
+
+
+        Plane plane4 = new Plane
+        {
+            Capacity = 100,
+            ManufactureDate = new DateTime(2025, 1, 24),
+            MyPlaneType = PlaneType.AIRBUS,
+        };
+
+        Flight flight = new Flight()
+        {
+            Destination = "Tunis",
+            Departure = "Paris",
+            FlightDate = new DateTime(2025, 1, 24),
+            EffectiveArrival = new DateTime(2025, 1, 24),
+            EstimatedDuration = 3,
+            MyPlane = plane4,
+            Comment = "This is a comment"
+        };
+        AMContext context = new AMContext();
+        context.Flights.Add(flight);
+        context.SaveChanges();

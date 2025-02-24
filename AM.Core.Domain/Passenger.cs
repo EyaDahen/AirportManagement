@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,11 +10,25 @@ namespace AM.Core.Domain
     public class Passenger
     {
         //Properties 
+        
+        //public int PassengerId { get; set; } //hethi nhotouha en commentaire bech el migration tetada bech madech ichoufha hiya cle primaire iwali ichou passeport number kima ahna zedneh 
+
+        [Display(Name = "Date of Birth")]
+        [DataType(DataType.Date,ErrorMessage ="Invalid date")]
+
         public DateTime BirthDate { get; set; }
+        [Key]
+        [StringLength(7, MinimumLength = 7, ErrorMessage = "PassportNumber doit avoir exactement 7 caractères.")]
         public string PassportNumber { get; set; }
+
+        [EmailAddress(ErrorMessage = "Adresse email invalide.")]
         public string EmailAddress { get; set; }
+
+        [StringLength(25, MinimumLength = 3, ErrorMessage = "FirstName doit avoir entre 3 et 25 caractères.")]
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        [Phone(ErrorMessage = "Numéro de téléphone invalide.")]
         public string TelNumber { get; set; }
         public int Age { get; set; }
         /*public int Age { get {

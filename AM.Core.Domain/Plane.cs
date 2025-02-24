@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
@@ -27,6 +28,8 @@ namespace AM.Core.Domain
         }
         */
         public int PlaneId { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "Capacity doit être un entier positif.")]
         public int Capacity { get; set; }
         public DateTime ManufactureDate { get; set; }
         public PlaneType MyPlaneType { get; set; }

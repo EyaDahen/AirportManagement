@@ -8,7 +8,7 @@ using AM.Core.Domain;
 
 namespace AM.Core.Services
 {
-    public class FlightService: IFlightService
+    public class FlightService : IFlightService
     {
         public IList<Flight> Flights { get; set; }
         public IList<DateTime> GetFlightDates(string destination)
@@ -17,20 +17,20 @@ namespace AM.Core.Services
 
             foreach (var flight in Flights)
             {
-                if (flight.Destination == destination) 
-                 result.Add(flight.FlightDate);
-                   
+                if (flight.Destination == destination)
+                    result.Add(flight.FlightDate);
+
             }
-            return result ;
+            return result;
 
 
         }
         public IList<DateTime> GetFlightDatesLINQ(string dest)
         {
             // methode 1 Requete linq intégré 
-            return (from flight in Flights 
-                         where flight.Destination == dest
-                         select flight.FlightDate).ToList();
+            return (from flight in Flights
+                    where flight.Destination == dest
+                    select flight.FlightDate).ToList();
 
             //Methode 2 Fonction avancé de linq 
             /*return Flights.Where(f=>f.Destination == dest)
@@ -45,7 +45,7 @@ namespace AM.Core.Services
             switch (filterType)
             {
                 case "Destination":
-                    foreach(var flight in Flights)
+                    foreach (var flight in Flights)
                     {
                         if (filterValue == flight.Destination)
                             result1.Add(flight);
@@ -108,10 +108,48 @@ namespace AM.Core.Services
             {
                 Console.WriteLine($"Date {flight.FlightDate},Destination: {flight.Destination}");
             }
-            
+
+        }
+        public int GetWeeklyFlightNumber(DateTime date)
+        {
+            return Flights
+                .Where(f => f.FlightDate >= date &&
+                            f.FlightDate < date.AddDays(7))
+                 .Count();
+
+        }
+        public double GetDurationAverage(string destination)
+        {
+            return Flights.Where(f => f.Destination == destination)
+                             .Average(f => f.EstimatedDuration);
+
+        }
+        public IList<Flight> SortFlights()
+        {
+            return Flights.OrderByDescending(f => f.EstimatedDuration).ToList();
+
         }
 
-       
+        public IList<Passenger> GetThreeOlderTravellers(Flight flight)
+        {
+            return flight.Passengers.OfType<Traveller>()
+                                    .OrderBy(p => p.BirthDate) //Order by par defaut acend
+                                    .Take(3)
+                                    .ToList<Passenger>();
+        }
 
+        public void ShowGroupedFlights()
+        {
+            //IEnumerable<IGrouping<string,Flight>> req = Flights.GroupBy(f => f.Destination); //IEnumerable<IGrouping<string,Flight>> hethi el kol najem nawthouda b var tout simplement 
+            var req = Flights.GroupBy(f => f.Destination); 
+            foreach (var g in req)
+            {
+                Console.WriteLine("Destination:"+ g.Key);
+                foreach (Flight flight in g)
+                {
+                    Console.WriteLine("les vols:"  + flight.ToString());
+                }
+            }
+        }
     }
 }
