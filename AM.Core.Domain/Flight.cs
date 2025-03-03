@@ -12,7 +12,7 @@ namespace AM.Core.Domain
     {
         //Properties
         [ForeignKey("MyPlane")]//esm el prop de navigation
-        public int PlaneId { get; set; }
+        public int? PlaneId { get; set; }
         public string Destination { get; set; }
         public string Departure { get; set; }
         public DateTime FlightDate { get; set; }
@@ -21,7 +21,7 @@ namespace AM.Core.Domain
         public int EstimatedDuration { get; set; }
         //Objet plane kol flight andou plane wahda barka 
         //[ForeignKey("PlaneId")]//ou bien hethi wwala illi el fouk Myplane
-        public Plane MyPlane { get; set; }
+        public Plane? MyPlane { get; set; }
         //Flight contient une liste de passenger 
         public IList<Passenger> Passengers { get; set; }
         public string  Comment { get; set; }
